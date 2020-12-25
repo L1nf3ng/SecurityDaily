@@ -6,8 +6,12 @@ Create Time: 2020/12/23 10:29
 Author: L1nf3ng
 """
 
-host = '10.0.12.93'
-port = 3306
+# HOST = '10.0.12.93'
+HOST = "192.168.40.62"
+PORT = 3306
+USERNAME = 's_d'
+PASSWORD = '112233'
+DATABASE = 'SecurityDaily'
 
-username = 's_d'
-password = '112233'
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8".format(USERNAME, PASSWORD, HOST, PORT, DATABASE)
