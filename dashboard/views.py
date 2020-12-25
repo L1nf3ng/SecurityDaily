@@ -21,10 +21,12 @@ def config():
         return "Hello, World!"
 
 
+# 配置结果展示试图
 @app.route('/show', methods = ['GET'])
 def show():
 
     # 查询数据
+    # 暂不写分页信息
     author = db.session.query(Author).filter_by(id=1).one()
     print(author)
     return "go check database!"

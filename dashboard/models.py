@@ -19,6 +19,11 @@ class Author(db.Model):
     # 创建一个属性记录属于他的文章
     posts = db.relationship("Post")
 
+    # 重写输出函数，方便打印
+    def __repr__(self):
+        return "Class:{}<id{} name:{} link:{} create_time:{}>".format("Author", self.id, self.name, self.link,
+                                                                     self.create_time)
+
 
 # 文章类
 class Post(db.Model):
@@ -31,3 +36,9 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # 外键名为 '表名.字段名'
     author_id = db.Column(db.Integer, db.ForeignKey("authors.id"))
+
+    # 重写输出函数，方便打印
+    def __repr__(self):
+        return "Class:{}<id{} title:{} link:{} tag:{} datetime:{} origin:{}>".format("Post", self.id, self.title,
+                                                                                    self.link, self.tag, self.datetime,
+                                                                                    self.origin)

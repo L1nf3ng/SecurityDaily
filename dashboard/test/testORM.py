@@ -27,7 +27,8 @@ class MyTestCase(unittest.TestCase):
     def test_something(self):
         # self.init_db_data()
         row1 = db.session.query(Author).filter_by(id=1).one()
-        print(row1.name)
+        for post in row1.posts:
+            print(post)
         # self.assertEqual(True, False)
 
 
