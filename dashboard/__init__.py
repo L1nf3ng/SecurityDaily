@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 
 # 定义一些常量
-LOGS_FOLDER = "logs"
+LOGS_FOLDER = "../logs"
 
 # app = Flask(__name__, instance_relative_config=True)
 app = Flask(__name__)
