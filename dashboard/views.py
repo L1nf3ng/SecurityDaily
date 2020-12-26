@@ -16,8 +16,12 @@ from flask import request, render_template
 @app.route("/config", methods=['GET', 'POST'])
 def config():
     if request.method == 'GET':
-        return render_template()
+        return render_template("config.html")
     else:
+        # 根据复选框勾选的情况创建线程、分配任务、进行扫描
+        for key in request.form.keys():
+            # 创建任务
+            print(key)
         return "Hello, World!"
 
 
@@ -25,12 +29,10 @@ def config():
 @app.route('/show', methods = ['GET'])
 def show():
 
-    # 查询数据
-    # 暂不写分页信息
-    author = db.session.query(Author).filter_by(id=1).one()
-    print(author)
-    return "go check database!"
-    # return author
+    # 查询爬取数据，暂不写分页功能
+    posts = db.session.query(Post).all()
+    # 注意返回响应时的字符编码问题
+    return str(posts[0])
 
 
 @app.route("/favicon.ico")

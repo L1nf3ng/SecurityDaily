@@ -6,7 +6,7 @@ Create Time: 2020/12/23 10:29
 Author: L1nf3ng
 """
 
-HOST = "192.168.0.111"
+HOST = "192.168.40.62"
 PORT = 3306
 USERNAME = 's_d'
 PASSWORD = '112233'

@@ -17,7 +17,7 @@ class Author(db.Model):
     create_time = db.Column(db.DateTime)
     id = db.Column(db.Integer, primary_key=True)
     # 创建一个属性记录属于他的文章
-    posts = db.relationship("Post")
+    posts = db.relationship("Post", back_populates="author")
 
     # 重写输出函数，方便打印
     def __repr__(self):
@@ -36,6 +36,8 @@ class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # 外键名为 '表名.字段名'
     author_id = db.Column(db.Integer, db.ForeignKey("authors.id"))
+    # 创建一个属性代表它的作者对象
+    author = db.relationship("Author", back_populates = "posts")
 
     # 重写输出函数，方便打印
     def __repr__(self):

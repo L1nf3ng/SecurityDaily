@@ -24,7 +24,7 @@ class MyTestCase(unittest.TestCase):
         db.session.add(post3)
         db.session.commit()
 
-    def test_something(self):
+    def test_orm(self):
         # self.init_db_data()
         row1 = db.session.query(Author).filter_by(id=1).one()
         for post in row1.posts:

@@ -1,15 +1,17 @@
-<!DOCTYPE html>
+{% extends 'base.html' %}
+
 <!--                                   Effect Display                                         -->
 <!------------------------------- Origin: Posts from xz.aliyun.com ----------------------------->
 <!--          Title         Author          Tags         Datetime          Links              -->
 <!--          *****         ******          ****         ********          *****              -->
 <!---------------------------      End of Origin + Separator       ----------------------------->
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Breakfast for Security Researcher</title>
-</head>
-<body>
+
+{% block title %}
+    结果页
+{% endblock %}
+
+
+{% block content %}
     <h1 align="center"> Breakfast for today: {{date}} </h1><br/>
 
     {% for item in results %}
@@ -40,6 +42,4 @@
     </table>
     <hr/>
     {% endfor %}
-
-</body>
-</html>
+{% endblock %}
