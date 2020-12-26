@@ -28,14 +28,13 @@ def config():
 # 配置结果展示试图
 @app.route('/show', methods = ['GET'])
 def show():
-
     # 查询爬取数据，暂不写分页功能
     posts = db.session.query(Post).all()
     # 注意返回响应时的字符编码问题
     return str(posts[0])
 
 
-@app.route("/favicon.ico")
-def favicon():
-    return app.send_static_file('favicon.ico')
+# @app.route("/favicon.ico")
+# def favicon():
+#     return app.send_static_file('favicon.ico')
 
