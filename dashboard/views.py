@@ -7,6 +7,7 @@ Author: L1nf3ng
 """
 
 from dashboard import app, db
+from crawler.utils import today
 # 引入Model类
 from dashboard.models import Author, Post
 from flask import request, render_template
@@ -31,7 +32,7 @@ def show():
     # 查询爬取数据，暂不写分页功能
     posts = db.session.query(Post).all()
     # 注意返回响应时的字符编码问题
-    return str(posts[0])
+    return render_template("report.html", date=today(), posts=posts)
 
 
 # @app.route("/favicon.ico")
