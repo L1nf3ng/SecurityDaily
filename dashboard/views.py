@@ -7,7 +7,7 @@ Author: L1nf3ng
 """
 
 from dashboard import app, db
-from crawler.utils import today
+from crawler import today
 # 引入Model类
 from dashboard.models import Author, Post
 from flask import request, render_template
@@ -20,6 +20,9 @@ def config():
         return render_template("config.html")
     else:
         # 根据复选框勾选的情况创建线程、分配任务、进行扫描
+        # conduct the tasks in  sequence
+        tasks = [seebug, aliyun, anquanke, freebuf, _4hou]
+
         for key in request.form.keys():
             # 创建任务
             print(key)

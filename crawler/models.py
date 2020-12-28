@@ -6,14 +6,15 @@ Create Time: 2020/12/26 20:38
 Author: L1nf3ng
 """
 
-import re
-import json
-import aiohttp
-import uuid
 import datetime
-from lxml import etree
-from crawler.utils import today
+import re
+import uuid
 
+import aiohttp
+from lxml import etree
+from dashboard.models import Post
+
+"""
 # 文章类，记录标题、链接、作者、分类、发布日期等重要信息
 class Article:
     # python的特性：只能定义一个构造函数，后期可以用*args的长度改造一下
@@ -67,7 +68,7 @@ class Article:
 
     # 输出函数，要么重载，要么自写。输出格式到文件，按模板形式输出为html、csv等
     def __repr__(self):
-        return """Post informaiton:\nTitle:{}\n Author:{} Type:{} Date:{} Link: {}\n""".\
+        return "Post informaiton:\nTitle:{}\n Author:{} Type:{} Date:{} Link: {}\n".\
             format(self._title,self._author,self._type,self._date,self._href)
 
     # 将元数据化为字典，再转成json字符串，方便与其他服务交互
@@ -75,6 +76,7 @@ class Article:
     def jsonify(self):
         input= {'title':self.title, 'author':self.author, 'tag':self.tag, 'link':self.link, 'date':self.date}
         return json.dumps(input)
+"""
 
 
 # 目标类，记录目标的爬取指标：链接、解析时的xpath语法
@@ -115,10 +117,10 @@ class Collector:
         # default charset is utf-8
         self._charset = 'utf-8'
         # the time zone which we acutually need
-        self._time_zone = self.handle_time()
+        self._time_zone = self.define_scope()
         self._posts = []
 
-    def handle_time(self):
+    def define_scope(self):
         scope = []
         now = datetime.datetime.now()
         scope.append(now.strftime("%Y-%m-%d"))
@@ -151,7 +153,7 @@ class Collector:
         if self._target.bad_expr!=None:
             for primitive in self._target.bad_expr:
                 for tag in eval('doc.'+primitive):
-                    super_tag =tag.getparent().getparent()
+                    super_tag = tag.getparent().getparent()
                     super_tag.getparent().remove(super_tag)
         # 1st expr determines the articles elements
         posts = eval('doc.'+self._target.expr[0])
@@ -196,10 +198,10 @@ class Collector:
 
             debug_num += 1
             data.append(self._target.url)
-            article = Article(data)
+            article = Post(data)
             # we only add the post in the time zone.
             if article.date in self._time_zone:
-                self._posts.append(Article(data))
+                self._posts.append(Post(data))
 
     @property
     def posts(self):

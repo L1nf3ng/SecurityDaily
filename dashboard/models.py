@@ -7,7 +7,7 @@ Author: L1nf3ng
 """
 
 from dashboard import db
-
+from crawler import dateTimeFormatter
 
 # 作者类
 class Author(db.Model):
@@ -38,6 +38,23 @@ class Post(db.Model):
     author_id = db.Column(db.Integer, db.ForeignKey("authors.id"))
     # 创建一个属性代表它的作者对象
     author = db.relationship("Author", back_populates = "posts")
+
+    def __init__(self, title, link, tag, origin, author):
+        self.title = title
+        self.link = link
+        self.tag = tag
+        self.origin = origin
+        self.datetime = None
+        self.author = author
+        if isinstance(author, Author):
+            self.author_id = author.id
+        else:
+            # 抛出异常
+            raise Exception(TypeError)
+
+    @dateTimeFormatter
+    def setDateTime(self, date=None):
+        self.datetime = date
 
     # 重写输出函数，方便打印
     def __repr__(self):
