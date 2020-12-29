@@ -12,7 +12,6 @@ from datetime import datetime
 
 
 ORIGIN_DICT = {
-    "xianzhi":"https://xz.aliyun.com",
     "anquanke":"https://www.anquanke.com",
     "freebuf":"https://www.freebuf.com",
     "sihou":"https://www.4hou.com",

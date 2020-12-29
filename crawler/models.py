@@ -9,14 +9,19 @@ Author: L1nf3ng
 import datetime
 import re
 import uuid
-
+import json
 import aiohttp
 from lxml import etree
-from dashboard.models import Post
+from crawler.rules import ORIGIN_DICT
+from crawler import dateTimeFormatter, today
+from dashboard import db
+from dashboard.models import Post, Author
 
-"""
+
 # 文章类，记录标题、链接、作者、分类、发布日期等重要信息
+# 新版本给它添加了新的功能：内部封装成Post、Author类别，并存入数据库
 class Article:
+
     # python的特性：只能定义一个构造函数，后期可以用*args的长度改造一下
     # 构造函数改为列表初始化：[title, link, author, category, date, origin]
     def __init__(self, data):
@@ -26,7 +31,7 @@ class Article:
         self._author_link = data[3]
 #        self._type= data[4] if type(data[4])==str else "Unknown"
         self._type = data[4]
-        self._date= self.handle_date(data[5])
+        self.setDate(date = data[5])
         self._origin = data[6]
         if not self._href.startswith('https://') and not self._href.startswith('http://'):
             self._href = self._origin + self._href
@@ -57,14 +62,13 @@ class Article:
     def date(self):
         return self._date
 
-    # in this func, we adjust the date-time into '%y-%m-%d' form
-    def handle_date(self,date):
-        ymd = re.search('(\d+)[-年](\d+)[-月](\d+)日?',date)
-        # 非常规格式，全部转成当天
-        if ymd is None:
-            return today()
-        year,month,day = ymd.groups()
-        return year+'-'+month+'-'+day
+    @property
+    def origin(self):
+        return self._origin
+
+    @dateTimeFormatter
+    def setDate(self,date=None):
+        self._date  = date
 
     # 输出函数，要么重载，要么自写。输出格式到文件，按模板形式输出为html、csv等
     def __repr__(self):
@@ -76,19 +80,36 @@ class Article:
     def jsonify(self):
         input= {'title':self.title, 'author':self.author, 'tag':self.tag, 'link':self.link, 'date':self.date}
         return json.dumps(input)
-"""
+
+    # 封装并存入数据库
+    def store(self):
+        # 1.查询作者表，检查是否已存在
+        writer = db.session.query(Author).filter_by(name= self.author, link=self.author_link).one_or_none()
+        if writer is None:
+            # 作者不存在，则先在表中添加作者
+            writer = Author(name=self.author, link=self.author_link)
+            # 作者信息的创建时间为首次发现时间
+            writer.setCreateTime(date=today())
+            db.session.add(writer)
+
+        # 2.创建Post类，并添加入表
+        article = Post(self.title, self.link, self.tag, self.origin, writer)
+        article.setDateTime(date= self.date)
+        db.session.add(article)
+        # * 重复写入的异常交由数据库唯一性约束解决
+        db.session.commit()
+        pass
+        # we only add the post in the time zone.
+
 
 
 # 目标类，记录目标的爬取指标：链接、解析时的xpath语法
-# Target中的表达式数组分别代表（post位置，标题位置、链接位置、作者位置、分类位置、日期位置）
-# Target中的坏表达式列表代表要删除的节点，因为这些某些节点的存在该绕了正常的解析过程，所以先找到它们，并删除掉
-# ！！！！注意，删除的是找到节点的父节点 ！！！！
+# Target中的坏表达式（_bad_filter）代表要删除的节点，因为这些节点的存在干扰了正常的解析过程，所以先找到它们，并删除掉（注意，被删节点的是找到节点的父节点 ！）
 class Target:
-    def __init__(self, url, good_xpath, bad_xpath=None):
-        self._url = url
-        self._expr = []
-        self._expr.extend(good_xpath)
-        self._bad_expr = bad_xpath
+    def __init__(self, targetName):
+        self._url = ORIGIN_DICT[targetName]['origin']
+        self._expr = ORIGIN_DICT[targetName]['standard']
+        self._bad_expr = ORIGIN_DICT[targetName]['filter']
 
     @property
     def url(self):
@@ -103,22 +124,23 @@ class Target:
         return self._bad_expr
 
 
-# 收集器类，负责测试连接、请求、解析文档、处理异常等
-class Collector:
-    def __init__(self, target, proxy= False):
-        self._target = target
-        self._headers = { "User-Agent":"Mozilla/5.0 Chrome/72.0.3626.121 Safari/537.36" }
-#                          "Accept":"text/html,application/xhtml+xml,application/xml",
-#                          "Accept-Encoding": "gzip, deflate, br",
-#                          "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8" }
+
+# 执行器类，Target对象生成后装入本对象，负责连接测试、发起请求、解析文档、处理异常等
+class Executor:
+    def __init__(self, targetName, proxy= False):
+        self._target = Target(targetName)
+        self._headers = { "User-Agent":"Mozilla/5.0 Chrome/72.0.3626.121 Safari/537.36",
+                         "Accept":"text/html,application/xhtml+xml,application/xml",
+                         "Accept-Encoding": "gzip, deflate, br",
+                         "Accept-Language": "zh-CN,zh;q=0.9,en;q=0.8" }
         self._proxy = "http://127.0.0.1:8080"
-        # set_proxy label shows whether turn on the proxy
+        # set_proxy boolean类型，意为是否开启代理
         self._set_proxy = proxy
         # default charset is utf-8
         self._charset = 'utf-8'
-        # the time zone which we acutually need
+        # time_zone，意为所求的时间范围
         self._time_zone = self.define_scope()
-        self._posts = []
+
 
     def define_scope(self):
         scope = []
@@ -136,28 +158,29 @@ class Collector:
     # 为了调高效率，一个站内的url应当尽可能使用一个session；不同的站使用不同session
     async def get_blog(self):
         async with aiohttp.ClientSession() as session:
-#            if self._set_proxy:
-#                params = {'headers':self._headers, 'proxy':self._proxy}
-#            else:
-#                params = {'headers':self._headers}
+            if self._set_proxy:
+               self._headers.update({'proxy':self._proxy})
+
             async with session.get(self._target.url, headers= self._headers, verify_ssl=False) as resp:
                 if resp.status !=200:
                     print('Cannot connect {} just now. Try it later or check the network...'.format(self._target.url))
                     return None
                 return await resp.text()
 
+
     def parse_blog(self, blog):
         doc = etree.fromstring(blog, etree.HTMLParser())
-#        doc = etree.parse(blog, p)
+
         # last expr defines the rule to delete useless tags
         if self._target.bad_expr!=None:
             for primitive in self._target.bad_expr:
                 for tag in eval('doc.'+primitive):
                     super_tag = tag.getparent().getparent()
                     super_tag.getparent().remove(super_tag)
+
         # 1st expr determines the articles elements
         posts = eval('doc.'+self._target.expr[0])
-        # left expressions determine posts information
+
         debug_num = 0
         Wrong_Handle = False
         for post in posts:
@@ -197,11 +220,11 @@ class Collector:
                         Wrong_Handle = True
 
             debug_num += 1
+            # data-6: origin url
             data.append(self._target.url)
-            article = Post(data)
-            # we only add the post in the time zone.
-            if article.date in self._time_zone:
-                self._posts.append(Post(data))
+            article = Article(data)
+            article.store()
+
 
     @property
     def posts(self):

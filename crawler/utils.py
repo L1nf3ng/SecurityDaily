@@ -7,21 +7,16 @@ Author: L1nf3ng
 """
 
 import asyncio
-from crawler.models import Collector
+from crawler.models import Executor
 
-async def unit_task(url, temp):
-    cl = Collector(url)
+async def unit_task(url):
+    cl = Executor(url)
     # phase 1, request the blog
     blog = await cl.get_blog()
     if blog is None:
-        print('the target {} currently not visited!'.format(url.url))
-    print("---------- the posts from {} -----------".format(url.url.upper()))
+        print('the target {} currently not visited!'.format(url))
+    print("---------- the posts from {} -----------".format(url.upper()))
     # phase2, analyse the response
     cl.parse_blog(blog)
-    to_show = {'Origin': url.url, 'Articles': cl.posts, 'Len': len(cl.posts)}
-    temp.append(to_show)
-
-
-loop = asyncio.get_event_loop()
-corutines = [unit_task(u, template_data) for u in tasks]
-loop.run_until_complete(asyncio.wait(corutines))
+    # to_show = {'Origin': url.url, 'Articles': cl.posts, 'Len': len(cl.posts)}
+    # temp.append(to_show)

@@ -19,6 +19,15 @@ class Author(db.Model):
     # 创建一个属性记录属于他的文章
     posts = db.relationship("Post", back_populates="author")
 
+    def __init__(self, link, name):
+        self.link = link
+        self.name = name
+        self.create_time = None
+
+    @dateTimeFormatter
+    def setCreateTime(self, date=None):
+        self.create_time = date
+
     # 重写输出函数，方便打印
     def __repr__(self):
         return "Class:{}<id{} name:{} link:{} create_time:{}>".format("Author", self.id, self.name, self.link,
