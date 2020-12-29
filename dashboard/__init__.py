@@ -9,7 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 # 自写的logger初始化函数，功能没有网上的全，但本项目够用
 def initLogger():
-    LOGDIR='logs'
+    LOGDIR='./logs/'
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
     logFileName = LOGDIR + time.strftime('%Y%m%d%H%M', time.localtime(time.time()))+ '.log'
