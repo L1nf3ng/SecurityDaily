@@ -44,5 +44,10 @@ def show():
     return render_template("report.html", date=today(), posts=posts)
 
 
+# 错速处理之404
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template("404.html"), 404
+
 app.add_url_rule('/', view_func=config)
 
