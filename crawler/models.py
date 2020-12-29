@@ -11,6 +11,7 @@ import re
 import uuid
 import json
 import aiohttp
+from sqlalchemy.exc import IntegrityError
 from lxml import etree
 from crawler.rules import ORIGIN_DICT
 from crawler import dateTimeFormatter, today
@@ -35,7 +36,7 @@ class Article:
         self._origin = data[6]
         if not self._href.startswith('https://') and not self._href.startswith('http://'):
             self._href = self._origin + self._href
-        if not self._author_link.startswith('https://') and not self._author_link.startswith('http://'):
+        if not self._author_link.startswith('https://') and not self._author_link.startswith('http://') and self._author_link!='unknown':
             self._author_link = self._origin + self._author_link
 
     @property
@@ -75,8 +76,7 @@ class Article:
         return "Post informaiton:\nTitle:{}\n Author:{} Type:{} Date:{} Link: {}\n".\
             format(self._title,self._author,self._type,self._date,self._href)
 
-    # 将元数据化为字典，再转成json字符串，方便与其他服务交互
-    # 暂时未用到
+    # 将元数据化为字典，再转成json字符串，方便与其他服务交互（暂时未用到）
     def jsonify(self):
         input= {'title':self.title, 'author':self.author, 'tag':self.tag, 'link':self.link, 'date':self.date}
         return json.dumps(input)
@@ -84,21 +84,23 @@ class Article:
     # 封装并存入数据库
     def store(self):
         # 1.查询作者表，检查是否已存在
-        writer = db.session.query(Author).filter_by(name= self.author, link=self.author_link).one_or_none()
+        writer = db.session.query(Author).filter_by(link=self.author_link).one_or_none()
         if writer is None:
             # 作者不存在，则先在表中添加作者
             writer = Author(name=self.author, link=self.author_link)
             # 作者信息的创建时间为首次发现时间
             writer.setCreateTime(date=today())
             db.session.add(writer)
+            db.session.commit()
 
         # 2.创建Post类，并添加入表
-        article = Post(self.title, self.link, self.tag, self.origin, writer)
-        article.setDateTime(date= self.date)
-        db.session.add(article)
-        # * 重复写入的异常交由数据库唯一性约束解决
-        db.session.commit()
-        pass
+        article = db.session.query(Post).filter_by(link=self.link, datetime=self.date).one_or_none()
+        if article is None:
+            article = Post(self.title, self.link, self.tag, self.origin, writer)
+            article.setDateTime(date= self.date)
+            db.session.add(article)
+            db.session.commit()
+
         # we only add the post in the time zone.
 
 
@@ -189,7 +191,7 @@ class Executor:
                 # 对od语句的解析时很核心的
                 try:
                     if self._target.expr[od]=="":
-                        data.append("unkown")
+                        data.append("unknown")
                     elif "regex" in self._target.expr[od]:
                         xpathExpression, reExpression = self._target.expr[od].split(",")
                         result = eval('post.' + xpathExpression)
@@ -201,7 +203,7 @@ class Executor:
                             result = eval('post.' + self._target.expr[od])
                             result = str(result)
                         except:
-                            result = "unkown"
+                            result = "unknown"
                         data.append(result.strip())
                 except Exception as ext:
                     # when exception occurs, store the doc into a file to check later

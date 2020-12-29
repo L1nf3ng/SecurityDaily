@@ -30,7 +30,7 @@ class Author(db.Model):
 
     # 重写输出函数，方便打印
     def __repr__(self):
-        return "Class:{}<id{} name:{} link:{} create_time:{}>".format("Author", self.id, self.name, self.link,
+        return "Class:{}<id:{} name:{} link:{} create_time:{}>".format("Author", self.id, self.name, self.link,
                                                                      self.create_time)
 
 
@@ -67,6 +67,6 @@ class Post(db.Model):
 
     # 重写输出函数，方便打印
     def __repr__(self):
-        return "Class:{}<id{} title:{} link:{} tag:{} datetime:{} origin:{}>".format("Post", self.id, self.title,
+        return "Class:{}<id:{} title:{} link:{} tag:{} datetime:{} origin:{}>".format("Post", self.id, self.title,
                                                                                     self.link, self.tag, self.datetime,
                                                                                     self.origin)

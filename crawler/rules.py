@@ -63,7 +63,8 @@ ORIGIN_DICT = {
                     "xpath('.//div[@class=\\'avatar_box newtime\\']/a/p')[0].text",    # 作者位置
                     "xpath('.//div[@class=\\'avatar_box newtime\\']/a/@href')[0]",  # 作者详情
                     "xpath('.//div[@class=\\'new_img\\']/span')[0].text",     # 分类位置
-                    "xpath('.//div[@class=\\'avatar_box newtime\\']/span')[0].text"]   # 日期位置
+                    "xpath('.//div[@class=\\'avatar_box newtime\\']/span')[0].text"],   # 日期位置
+        "filter": ""
     },
 
     "seebug": {

@@ -11,14 +11,6 @@ from functools import wraps
 from datetime import datetime
 
 
-ORIGIN_DICT = {
-    "anquanke":"https://www.anquanke.com",
-    "freebuf":"https://www.freebuf.com",
-    "sihou":"https://www.4hou.com",
-    "seebug":"https://paper.seebug.org"
-}
-
-
 # 日期格式的转换的装饰器
 def dateTimeFormatter(func):
     @wraps(func)
@@ -35,7 +27,7 @@ def dateTimeFormatter(func):
                 kwargs[key] = year + '-' + month + '-' + day
             else:
                 # 参数为空时默认赋值为当天日期
-                kwargs[key] = year + '-' + month + '-' + day
+                kwargs[key] = today()
 
         func(*args, **kwargs)
     return wrapper
