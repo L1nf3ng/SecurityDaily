@@ -11,11 +11,11 @@ import re
 import uuid
 import json
 import aiohttp
-from sqlalchemy.exc import IntegrityError
+
 from lxml import etree
 from crawler.rules import ORIGIN_DICT
 from crawler import dateTimeFormatter, today
-from dashboard import db
+from dashboard import db, logger
 from dashboard.models import Post, Author
 
 
@@ -85,6 +85,7 @@ class Article:
     def store(self):
         # 1.查询作者表，检查是否已存在
         writer = db.session.query(Author).filter_by(link=self.author_link).one_or_none()
+        logger.debug("Author Info Existed: %s" % writer)
         if writer is None:
             # 作者不存在，则先在表中添加作者
             writer = Author(name=self.author, link=self.author_link)
@@ -95,13 +96,14 @@ class Article:
 
         # 2.创建Post类，并添加入表
         article = db.session.query(Post).filter_by(link=self.link, datetime=self.date).one_or_none()
+        logger.debug("Post Info Existed: %s" % article)
         if article is None:
             article = Post(self.title, self.link, self.tag, self.origin, writer)
             article.setDateTime(date= self.date)
             db.session.add(article)
             db.session.commit()
 
-        # we only add the post in the time zone.
+        # TODO: we only add the post in the time zone.
 
 
 
@@ -144,19 +146,6 @@ class Executor:
         self._time_zone = self.define_scope()
 
 
-    def define_scope(self):
-        scope = []
-        now = datetime.datetime.now()
-        scope.append(now.strftime("%Y-%m-%d"))
-        week = now.strftime("%a")
-        # 如果今天是周一，则顺便爬取上周末的文章
-        if week == "Mon":
-            last = now - datetime.timedelta(days=1)
-            scope.append(last.strftime("%Y-%m-%d"))
-            last = now - datetime.timedelta(days=2)
-            scope.append(last.strftime("%Y-%m-%d"))
-        return scope
-
     # 为了调高效率，一个站内的url应当尽可能使用一个session；不同的站使用不同session
     async def get_blog(self):
         async with aiohttp.ClientSession() as session:
@@ -188,7 +177,7 @@ class Executor:
         for post in posts:
             data = []
             for od in range(1, len(self._target._expr), 1):
-                # 对od语句的解析时很核心的
+                # 对od语句的解析是本函数的核心功能
                 try:
                     if self._target.expr[od]=="":
                         data.append("unknown")
@@ -226,7 +215,6 @@ class Executor:
             data.append(self._target.url)
             article = Article(data)
             article.store()
-
 
     @property
     def posts(self):
