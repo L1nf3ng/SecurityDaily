@@ -14,7 +14,7 @@ import aiohttp
 
 from lxml import etree
 from crawler.rules import ORIGIN_DICT
-from crawler import dateTimeFormatter, today
+from crawler import dateTimeFormatter, today, define_scope
 from dashboard import db, logger
 from dashboard.models import Post, Author
 
@@ -69,7 +69,7 @@ class Article:
 
     @dateTimeFormatter
     def setDate(self,date=None):
-        self._date  = date
+        self._date = date
 
     # 输出函数，要么重载，要么自写。输出格式到文件，按模板形式输出为html、csv等
     def __repr__(self):
@@ -143,7 +143,7 @@ class Executor:
         # default charset is utf-8
         self._charset = 'utf-8'
         # time_zone，意为所求的时间范围
-        self._time_zone = self.define_scope()
+        self._time_zone = define_scope()
 
 
     # 为了调高效率，一个站内的url应当尽可能使用一个session；不同的站使用不同session
@@ -214,9 +214,7 @@ class Executor:
             # data-6: origin url
             data.append(self._target.url)
             article = Article(data)
-            article.store()
-
-    @property
-    def posts(self):
-        return self._posts
+            # 只存储在时间范围内的文章
+            if article.date in self._time_zone:
+                article.store()
 
