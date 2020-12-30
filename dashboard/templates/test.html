@@ -16,15 +16,87 @@
             padding-bottom: 40px;
             background-color: #eee;
         }
+        .logo{
+            width:1170px;
+            height:280px;
+            padding-bottom:30px;
+            margin-top:-60px;
+            margin-left:-15px;
+            margin-right: -15px;
+        }
+        .form-group{
+            border: 1px #3e8f3e solid;
+            border-radius: 4px;
+        }
+
+        .checkbox-custom {
+            position: relative;
+            padding: 0 15px 0 25px;
+            margin-bottom: 7px;
+            margin-top: 0;
+            /*display: inline-block;*/
+        }
+        /*
+        将初始的checkbox的样式改变
+        */
+        .checkbox-custom input[type="checkbox"] {
+            opacity: 0;/*将初始的checkbox隐藏起来*/
+            position: absolute;
+            cursor: pointer;
+            z-index: 2;
+            margin: -6px 0 0 0;
+            top: 50%;
+            left: 3px;
+        }
+        /*
+        设计新的checkbox，位置
+        */
+        .checkbox-custom label:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            margin-top: -9px;
+            width: 19px;
+            height: 19px;
+            display: inline-block;
+            border-radius: 2px;
+            border: 1px solid #bbb;
+            background: #fff;
+        }
+        /*
+        点击初始的checkbox，将新的checkbox关联起来
+        */
+        .checkbox-custom input[type="checkbox"]:checked +label:after {
+            position: absolute;
+            display: inline-block;
+            font-family: 'Glyphicons Halflings';
+            content: "\e013";
+            top: 42%;
+            left: 3px;
+            margin-top: -5px;
+            font-size: 11px;
+            line-height: 1;
+            width: 16px;
+            height: 16px;
+            color: #333;
+        }
+        .checkbox-custom label {
+            cursor: pointer;
+            line-height: 1.2;
+            font-weight: normal;/*改变了rememberme的字体*/
+            margin-bottom: 0;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
 
     <div class="container">
         <!-- 第零行加上logo占空间 -->
-        <div class="row" style="height:200px">
+        <div class="row" >
             <div class="col-lg-12">
-                <img src="../static/logo1.png" class="center-block img-responsive" />
+                <img src="../static/logo.png" class="center-block logo"/>
             </div>
         </div>
         <!-- 第一行为导航页 -->
@@ -38,52 +110,78 @@
         <div class="row">
             <div class="col-lg-6">
                 <!-- 第一列第一行为名称 -->
-                <div class="col-lg-12" style="height:100px">
+                <div class="col-lg-12" style="height:80px">
                     <h2>资讯</h2>
                 </div>
                 <!-- 第一列第二行为表单 -->
-                <form class="bs-example bs-example-form" role="form" method="post" action="#">
-                    <div class="form-group">
-                        <input type="checkbox" id="checkbox_1" name="freebuf" class="form-control">
-                        <label id="label_1">freebuf</label>
+                <div class="col-lg-12">
+                    <form role="form" method="post" action="#">
+
+                    <div class="form-group checkbox-custom ">
+                        <input type="checkbox" id="checkbox_1" name="freebuf" >
+                        <label id="label_1" for="checkbox_1"><h4>freebuf</h4></label>
                     </div>
 
-                    <div class="form-group">
-                        <input type="checkbox" id="checkbox_2" name="anquanke" class="form-control">
-                        <label id="label_2" >安全客</label>
+                    <div class="form-group  checkbox-custom">
+                        <input type="checkbox" id="checkbox_2" name="anquanke">
+                        <label id="label_2" for="checkbox_2" ><h4>安全客</h4></label>
                     </div>
 
-                    <div class="form-group">
-                        <input type="checkbox" id="checkbox_3" name="sihou" class="form-control">
-                        <label id="label_3" >嘶吼</label>
+                    <div class="form-group checkbox-custom">
+                        <input type="checkbox" id="checkbox_3" name="sihou">
+                        <label id="label_3" for="checkbox_3" ><h4>嘶吼</h4></label>
                     </div>
 
-                    <div class="form-group">
-                        <input type="checkbox" id="checkbox_4"  name="xianzhi" class="form-control">
-                        <label id="label_4" >先知</label>
+                    <div class="form-group checkbox-custom">
+                        <input type="checkbox" id="checkbox_4"  name="xianzhi">
+                        <label id="label_4" for="checkbox_4"><h4>先知</h4></label>
                     </div>
 
-                    <div class="form-group">
-                        <input type="checkbox" id="checkbox_5" name="seebug"class="form-control">
-                        <label id="label_5" >seebug</label>
+                    <div class="form-group checkbox-custom">
+                        <input type="checkbox" id="checkbox_5" name="seebug">
+                        <label id="label_5" for="checkbox_5" ><h4>seebug</h4></label>
                     </div>
 
-                    <div class="form-group">
-                        <button type="submit" id="button_1" class="btn btn-block btn-lg btn-primary form-control">
+                    <div>
+                        <button type="submit" id="button_1" class="btn btn-block btn-lg btn-primary">
                             开始爬取
                         </button>
                     </div>
                 </form>
-                <!-- 第一行第三列为进度条（由js控制添加） -->
+                </div>
             </div>
+
             <div class="col-lg-6">
                 <!-- 第二列第一行为名称 -->
-                <div class="col-lg-12" style="height:100px">
-                    <h2>博客</h2>
+                <div class="col-lg-12" style="height:80px">
+                    <h2>博客（本区域功能暂未实现）</h2>
                 </div>
                 <!-- 第二行右一为n个博客链接 -->
+                <div class="col-lg-12">
+                    <form role="form">
+                        <div class="form-group">
+                            <a href="#">大佬博客1</a>
+                        </div>
+                        <div class="form-group">
+                            <a href="#">大佬博客2</a>
+                        </div>
+                        <div class="form-group">
+                            <a href="#">大佬博客3</a>
+                        </div>
+                        <div class="form-group">
+                            <a href="#">大佬博客4</a>
+                        </div>
+                        <div class="form-group">
+                            <a href="#">大佬博客5</a>
+                        </div>
+                        <div class="form-group">
+                            <a href="#">大佬博客6</a>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
+
     </div>
 
     <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
