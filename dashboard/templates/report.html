@@ -11,33 +11,59 @@
 {% endblock %}
 
 
+{% block css %}
+    body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #eee;
+    }
+    .logo{
+        width:1170px;
+        height:280px;
+        padding-bottom:30px;
+        margin-top:-60px;
+        margin-left:-15px;
+        margin-right: -15px;
+    }
+{% endblock %}
+
+
 {% block content %}
+    <div class="container">
+        <!-- 第零行加上logo占空间 -->
+        <div class="row" >
+            <div class="col-lg-12">
+                <img src="../static/logo.png" class="center-block logo"/>
+            </div>
+        </div>
+        <!-- 第一行放上本页标题-->
+        <div class="row">
+            <div>
+                <h2 align="center"> 今日份早餐：{{date}} </h2>
+            </div>
+            <!-- 第二行加入列表（后续加入分页功能）-->
+            <div>
+                <table class="table">
+                    <tr align="center">
+                        <td>Title</td>
+                        <td>Author</td>
+                        <td>Tag</td>
+                        <td>Datetime</td>
+                        <td>Origin</td>
+                    </tr>
+                    {% for post in posts %}
+                        <tr align="center" >
+                            <td><a href="{{post.link}}" target="_blank">{{post.title}}</a></td>
+                            <td><a href="{{post.author.link}}" target="_blank">{{post.author.name}}</a></td>
+                            <td>{{post.tag}}</td>
+                            <td>{{post.datetime}}</td>
+                            <td>{{post.origin}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
 
-    <div id="container" align="center" style="width:1125px">
+        </div>
 
-        <img src="{{url_for('static', filename='logo.png')}}" align="center" width="1125px"><br/>
-        <h1 align="center"> Breakfast for today: {{date}} </h1><br/>
-
-        <table border="1" align="center" width="1125px">
-
-            <tr align="center">
-                <td>Title</td>
-                <td>Author</td>
-                <td>Tag</td>
-                <td>Datetime</td>
-                <td>Origin</td>
-            </tr>
-            {% for post in posts %}
-                <tr align="center" >
-                    <td><a href="{{post.link}}" target="_blank">{{post.title}}</a></td>
-                    <td><a href="{{post.author.link}}" target="_blank">{{post.author.name}}</a></td>
-                    <td>{{post.tag}}</td>
-                    <td>{{post.datetime}}</td>
-                    <td>{{post.origin}}</td>
-                </tr>
-            {% endfor %}
-
-        </table>
-        <hr/>
     </div>
 {% endblock %}
