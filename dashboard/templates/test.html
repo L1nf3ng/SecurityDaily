@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--  本页面用于静态调试HTML css -->
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>测试页面-知识早餐计划</title>
+
+    <link rel="icon" href="../static/favicon.ico">
+    <!-- Bootstrap -->
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            padding-top: 40px;
+            padding-bottom: 40px;
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- 第零行加上logo占空间 -->
+        <!div class="row" style="height:200px">
+            <div class="col-lg-12">
+                <img src="../static/logo1.png" class="center-block img-responsive" />
+            </div>
+        </div>
+        <!-- 第一行为导航页 -->
+        <div class="row">
+            <ul class="nav nav-pills">
+              <li role="presentation" class="active"><a href="#">任务配置</a></li>
+              <li role="presentation"><a href="#">规则配置</a></li>
+            </ul>
+        </div>
+        <!-- 第二行为包含两列 -->
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- 第一列第一行为名称 -->
+                <div class="col-lg-12" style="height:100px">
+                    <h2>资讯</h2>
+                </div>
+                <!-- 第一列第二行为表单 -->
+                <form class="bs-example bs-example-form" role="form" method="post" action="#">
+                    <div class="form-group">
+                        <input type="checkbox" id="checkbox_1" name="freebuf" class="form-control">
+                        <label id="label_1">freebuf</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="checkbox" id="checkbox_2" name="anquanke" class="form-control">
+                        <label id="label_2" >安全客</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="checkbox" id="checkbox_3" name="sihou" class="form-control">
+                        <label id="label_3" >嘶吼</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="checkbox" id="checkbox_4"  name="xianzhi" class="form-control">
+                        <label id="label_4" >先知</label>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="checkbox" id="checkbox_5" name="seebug"class="form-control">
+                        <label id="label_5" >seebug</label>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" id="button_1" class="btn btn-block btn-lg btn-primary form-control">
+                            开始爬取
+                        </button>
+                    </div>
+                </form>
+                <!-- 第一行第三列为进度条（由js控制添加） -->
+            </div>
+            <div class="col-lg-6">
+                <!-- 第二列第一行为名称 -->
+                <div class="col-lg-12" style="height:100px">
+                    <h2>博客</h2>
+                </div>
+                <!-- 第二行右一为n个博客链接 -->
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="../static/js/bootstrap.min.js"></script>
+</body>
+</html>

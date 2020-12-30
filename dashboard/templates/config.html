@@ -24,58 +24,110 @@
 
 {% block content %}
 
+    <!--header>
+        <div class="container">
+            <div class="row" style="height:200px">
+                <div class="col-lg-12">
+                    <img src="{{url_for('static', filename='logo1.png')}}" class="center-block img-responsive" />
+                </div>
+            </div>
+        </div>
+    </header-->
+
     <div class="container">
+        <!-- 第零行加上logo占空间 -->
+        <!div class="row" style="height:200px">
+            <div class="col-lg-12">
+                <img src="{{url_for('static', filename='logo1.png')}}" class="center-block img-responsive" />
+            </div>
+        </div>
+        <!-- 第一行为导航页 -->
+        <div class="row">
+            <ul class="nav nav-pills">
+              <li role="presentation" class="active"><a href="#">任务配置</a></li>
+              <li role="presentation"><a href="#">规则配置</a></li>
+            </ul>
+        </div>
+        <!-- 第二行为包含两列 -->
+        <div class="row">
+            <div class="col-lg-6">
+                <!-- 第一列第一行为名称 -->
+                <div class="col-lg-12" style="height:100px">
+                    <h2>资讯</h2>
+                </div>
+                <!-- 第一列第二行为表单 -->
+                <form class="bs-example bs-example-form" role="form" method="post" action="{{ url_for('config') }}">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <input type="checkbox" id="checkbox_1" name="freebuf">
+                                </span>
+                                <label id="label_1">freebuf</label>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    </div>
 
-        <form class="bs-example bs-example-form" role="form" method="post" action="{{ url_for('config') }}">
-            <div class="row">
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <input type="checkbox" id="checkbox_1" name="freebuf">
-                        </span>
-                        <label id="label_1">freebuf</label>
-                    </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-                <br>
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <input type="checkbox" id="checkbox_2" name="anquanke">
-                        </span>
-                        <label id="label_2" >安全客</label>
-                    </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-                <br>
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <input type="checkbox" id="checkbox_3" name="sihou">
-                        </span>
-                        <label id="label_3" >嘶吼</label>
-                    </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-                <br>
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <input type="checkbox" id="checkbox_4"  name="xianzhi">
-                        </span>
-                        <label id="label_4" >先知</label>
-                    </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-                <br>
-                <div class="col-lg-6">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <input type="checkbox" id="checkbox_5" name="seebug">
-                        </span>
-                        <label id="label_5" >seebug</label>
-                    </div><!-- /input-group -->
-                </div><!-- /.col-lg-6 -->
-            </div><!-- /.row -->
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <input type="checkbox" id="checkbox_2" name="anquanke">
+                                </span>
+                                <label id="label_2" >安全客</label>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    </div>
 
-            <button type="submit" id="button_1" class="btn btn-block btn-lg btn-primary">开始爬取</button>
-        </form>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <input type="checkbox" id="checkbox_3" name="sihou">
+                                </span>
+                                <label id="label_3" >嘶吼</label>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <input type="checkbox" id="checkbox_4"  name="xianzhi">
+                                </span>
+                                <label id="label_4" >先知</label>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <input type="checkbox" id="checkbox_5" name="seebug">
+                                </span>
+                                <label id="label_5" >seebug</label>
+                            </div><!-- /input-group -->
+                        </div><!-- /.col-lg-6 -->
+                    </div><!-- /.row -->
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <button type="submit" id="button_1" class="btn btn-block btn-lg btn-primary">开始爬取</button>
+                        </div>
+                    </div>
+                </form>
+                <!-- 第一行第三列为进度条（由js控制添加） -->
+            </div>
+            <div class="col-lg-6">
+                <!-- 第二列第一行为名称 -->
+                <div class="col-lg-12" style="height:100px">
+                    <h2>博客</h2>
+                </div>
+                <!-- 第二行右一为n个博客链接 -->
+            </div>
+        </div>
 
     </div>
 
