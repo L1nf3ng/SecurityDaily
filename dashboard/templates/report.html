@@ -36,12 +36,16 @@
                 <img src="{{url_for('static', filename='logo.png')}}" class="center-block logo"/>
             </div>
         </div>
-        <!-- 第一行放上本页标题-->
         <div class="row">
+            <!-- 第一行放上本页标题-->
             <div>
-                <h2 align="center"> 今日份早餐：{{date}} </h2><a href="{{url_for('config')}}">首页地址</a>
+                <h2 align="center"> 今日份早餐：{{date}} </h2>
             </div>
-            <!-- 第二行加入列表（后续加入分页功能）-->
+            <!-- 第二行放首页地址-->
+            <div align="center">
+                <a href="{{url_for('config')}}">首页地址</a>
+            </div>
+            <!-- 第三行加入列表-->
             <div>
                 <table class="table">
 
@@ -64,8 +68,8 @@
 
                 </table>
             </div>
-            <div>
-              <!--  分页部分 -->
+            <!--  第四行：分页部分 -->
+            <div align="center">
               <nav aria-label="Page navigation">
                   <!--------------首页--------------------->
                   <!-- a href="{{ url_for('show') }}">首页</a -->

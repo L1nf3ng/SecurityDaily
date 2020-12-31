@@ -1,9 +1,13 @@
 # SecurityDaily
 一款用于搜集安全社区各种资讯（博客、公告、情报）的工具，本项目是原BlogSpider项目的提取版，将更加关注信息搜集的功能。
 
-[截图1]
-[截图2]
-[截图3]
+任务配置页面：
+
+![image-20201231175229642](https://llf-oss.oss-cn-beijing.aliyuncs.com/bucket/pictures/20201231175237.png)
+
+结果展示页面:
+
+![image-20201231175303382](https://llf-oss.oss-cn-beijing.aliyuncs.com/bucket/pictures/20201231175303.png)
 
 ## 知识早餐计划
 
