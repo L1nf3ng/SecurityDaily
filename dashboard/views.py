@@ -35,19 +35,29 @@ def config():
         return redirect(url_for('show'))
 
 
-# 配置结果展示试图
+# 分页展示结果
 @app.route('/show', methods = ['GET'])
 def show():
-    # 查询爬取数据，暂不写分页功能
-    posts = db.session.query(Post).all()
+    # 默认第一页并只显示10条数据
+    page = request.args.get('page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
+    # 查询爬取数据
+    pagination = db.session.query(Post).order_by(Post.datetime.desc()).paginate(page, per_page)
     # 注意返回响应时的字符编码问题
-    return render_template("report.html", date=today(), posts=posts)
+    return render_template("report.html", date=today(), pagination= pagination)
 
 
-# 错速处理之404
+# 错误处理之404
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template("404.html"), 404
+
+
+# 错误处理之500
+@app.errorhandler(500)
+def internal_error(error):
+    return render_template("500.html"), 500
+
 
 app.add_url_rule('/', view_func=config)
 
