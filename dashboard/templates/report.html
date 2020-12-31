@@ -11,85 +11,112 @@
 {% endblock %}
 
 
+{% block css %}
+    body {
+        padding-top: 40px;
+        padding-bottom: 40px;
+        background-color: #eee;
+    }
+    .logo{
+        width:1170px;
+        height:280px;
+        padding-bottom:30px;
+        margin-top:-60px;
+        margin-left:-15px;
+        margin-right: -15px;
+    }
+{% endblock %}
+
+
 {% block content %}
+    <div class="container">
+        <!-- 第零行加上logo占空间 -->
+        <div class="row" >
+            <div class="col-lg-12">
+                <img src="{{url_for('static', filename='logo.png')}}" class="center-block logo"/>
+            </div>
+        </div>
+        <!-- 第一行放上本页标题-->
+        <div class="row">
+            <div>
+                <h2 align="center"> 今日份早餐：{{date}} </h2><a href="{{url_for('config')}}">首页地址</a>
+            </div>
+            <!-- 第二行加入列表（后续加入分页功能）-->
+            <div>
+                <table class="table">
 
-    <div class="container" align="center" style="width:1125px">
+                    <tr align="center">
+                        <td>Title</td>
+                        <td>Author</td>
+                        <td>Tag</td>
+                        <td>Datetime</td>
+                        <td>Origin</td>
+                    </tr>
+                    {% for post in pagination.items %}
+                        <tr align="center" >
+                            <td><a href="{{post.link}}" target="_blank">{{post.title}}</a></td>
+                            <td><a href="{{post.author.link}}" target="_blank">{{post.author.name}}</a></td>
+                            <td>{{post.tag}}</td>
+                            <td>{{post.datetime}}</td>
+                            <td>{{post.origin}}</td>
+                        </tr>
+                    {% endfor %}
 
-        <img src="{{url_for('static', filename='logo.png')}}" align="center" width="1125px"><br/>
-        <h1 align="center"> Breakfast for today: {{date}} </h1><a href="{{url_for('config')}}">首页地址</a><br/>
+                </table>
+            </div>
+            <div>
+              <!--  分页部分 -->
+              <nav aria-label="Page navigation">
+                  <!--------------首页--------------------->
+                  <!-- a href="{{ url_for('show') }}">首页</a -->
+                  <ul class="pagination">
+                      <!-- 通过 has_prev 判断是否能上一页,不能则 url为# -->
+                      {% if pagination.has_prev %}
+                          <li>
+                              <a href="{{ url_for('show') }}?page={{ pagination.prev_num }}" aria-label="Previous">
+                                  <span aria-hidden="true">&laquo;</span>
+                              </a>
+                          </li>
+                          {% else %}
+                          <li class="disabled">
+                              <a href="#" aria-label="Previous">
+                                  <span aria-hidden="true">&laquo;</span>
+                              </a>
+                          </li>
+                      {% endif %}
 
-        <table border="1" align="center" width="1125px">
+                      <!--------------页码列表--------------------->
+                      {% for page in pagination.iter_pages() %}
+                          {% if page %}
+                              <!--------------当列表中的页码不等于 当前的页数 生成其他页码数(url)--------------------->
+                              {% if page != pagination.page %}
+                                  <li><a href="{{ url_for('show') }}?page={{ page }}">{{ page }}</a></li>
+                              {% else %}
+                                  <li class="active"><a href="#">{{ page }}</a></li>
+                              {% endif %}
+                          {% endif %}
+                      {% endfor %}
 
-            <tr align="center">
-                <td>Title</td>
-                <td>Author</td>
-                <td>Tag</td>
-                <td>Datetime</td>
-                <td>Origin</td>
-            </tr>
-            {% for post in pagination.items %}
-                <tr align="center" >
-                    <td><a href="{{post.link}}" target="_blank">{{post.title}}</a></td>
-                    <td><a href="{{post.author.link}}" target="_blank">{{post.author.name}}</a></td>
-                    <td>{{post.tag}}</td>
-                    <td>{{post.datetime}}</td>
-                    <td>{{post.origin}}</td>
-                </tr>
-            {% endfor %}
-
-        </table>
-        <hr/>
-
-        <!--  分页部分 -->
-        <nav aria-label="Page navigation">
-            <!--------------首页--------------------->
-            <!-- a href="{{ url_for('show') }}">首页</a -->
-            <ul class="pagination">
-                <!-- 通过 has_prev 判断是否能上一页,不能则 url为# -->
-                {% if pagination.has_prev %}
-                    <li>
-                        <a href="{{ url_for('show') }}?page={{ pagination.prev_num }}" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                    {% else %}
-                    <li class="disabled">
-                        <a href="#" aria-label="Previous">
-                            <span aria-hidden="true">&laquo;</span>
-                        </a>
-                    </li>
-                {% endif %}
-
-                <!--------------页码列表--------------------->
-                {% for page in pagination.iter_pages() %}
-                    {% if page %}
-                        <!--------------当列表中的页码不等于 当前的页数 生成其他页码数(url)--------------------->
-                        {% if page != pagination.page %}
-                            <li><a href="{{ url_for('show') }}?page={{ page }}">{{ page }}</a></li>
-                        {% else %}
-                            <li class="active"><a href="#">{{ page }}</a></li>
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
-
-            　　 <!-- 通过 has_next 判断是否能下一页,不能则 url为# -->
-                {% if pagination.has_next %}
-                    <li>
-                        <a href="{{ url_for('show') }}?page={{ pagination.next_num }}" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                {% else %}
-                    <li class="disabled">
-                        <a href="#" aria-label="Next">
-                            <span aria-hidden="true">&raquo;</span>
-                        </a>
-                    </li>
-                {% endif %}
-            </ul>
-            <!--------------最后一页--------------------->
-            <!-- a href="{{ url_for('show') }}?page={{ pagination.pages }}">尾页</a -->
-        </nav>
+                     <!-- 通过 has_next 判断是否能下一页,不能则 url为# -->
+                      {% if pagination.has_next %}
+                          <li>
+                              <a href="{{ url_for('show') }}?page={{ pagination.next_num }}" aria-label="Next">
+                                  <span aria-hidden="true">&raquo;</span>
+                              </a>
+                          </li>
+                      {% else %}
+                          <li class="disabled">
+                              <a href="#" aria-label="Next">
+                                  <span aria-hidden="true">&raquo;</span>
+                              </a>
+                          </li>
+                      {% endif %}
+                  </ul>
+                  <!--------------最后一页--------------------->
+                  <!-- a href="{{ url_for('show') }}?page={{ pagination.pages }}">尾页</a -->
+              </nav>              
+            </div> 
+        </div>
     </div>
 
 {% endblock %}
