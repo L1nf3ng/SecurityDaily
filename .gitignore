@@ -133,3 +133,6 @@ dmypy.json
 
 # logs deirectory
 logs/
+
+# log files
+*.log

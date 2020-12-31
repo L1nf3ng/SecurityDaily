@@ -1,9 +1,22 @@
 # -*- encoding:utf-8 -*-
 
 import os
-
+import time
+import logging
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+
+
+# 自写的logger初始化函数，功能没有网上的全，但本项目够用
+def initLogger():
+    LOGDIR='./logs/'
+    logger = logging.getLogger()
+    logger.setLevel(logging.INFO)
+    logFileName = LOGDIR + time.strftime('%Y%m%d')+ '.log'
+    fileHandler = logging.FileHandler(filename=logFileName, encoding='utf8')
+    fileHandler.setFormatter(logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s"))
+    logger.addHandler(fileHandler)
+    return logger
 
 
 # 定义一些常量
@@ -23,5 +36,7 @@ except OSError:
 
 # 初始化数据库源
 db = SQLAlchemy(app)
+# 因为web端先启动，所以由它完成logger初始化
+logger = initLogger()
 
 from dashboard import views,config,models

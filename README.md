@@ -20,8 +20,31 @@
 
 ## 安装
 
-**注意：建表时默认字符集选UTF-8，以免插入中文时报错。**
+### 1.下载源码
 
+`git clone https://github.com/L1nf3ng/SecurityDaily.git -b main`
+
+### 2.安装依赖
+
+`cd SecurityDaily && python -m pip install requirements.txt`
+
+### 3.配置数据库
+
+本项目使用的是MySQL数据库，将项目根目录下的`schema.sql`文件拷入某个系统目录（例如:`/home/`），然后进入MySQL执行脚本：
+
+`> source /home/schema.sql`
+
+执行完会新建一个名为`SecurityDaily`的数据库，对某个mysql用户授予该数据库的全部权力：
+
+`> grant all on SecurityDaily.* to 'your_mysql_account'@'%'; flush privileges;`
+
+切换到项目`dashboard`目录下的`config.py`文件，配置对应的MySQL连接参数。
+
+### 4.运行项目
+
+回到项目根目录，运行：
+
+`python -m flask run`
 
 ## Q&A
 

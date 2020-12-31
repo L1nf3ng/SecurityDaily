@@ -7,8 +7,8 @@ Author: L1nf3ng
 """
 
 import re
+import datetime
 from functools import wraps
-from datetime import datetime
 
 
 # 日期格式的转换的装饰器
@@ -34,7 +34,20 @@ def dateTimeFormatter(func):
 
 
 def today():
-    return datetime.now().strftime('%Y-%m-%d')
+    return datetime.datetime.now().strftime('%Y-%m-%d')
 
+
+def define_scope():
+    scope = []
+    now = datetime.datetime.now()
+    scope.append(now.strftime("%Y-%m-%d"))
+    week = now.strftime("%a")
+    # 如果今天是周一，则顺便爬取上周末的文章
+    if week == "Mon":
+        last = now - datetime.timedelta(days=1)
+        scope.append(last.strftime("%Y-%m-%d"))
+        last = now - datetime.timedelta(days=2)
+        scope.append(last.strftime("%Y-%m-%d"))
+    return scope
 
 from crawler import utils
