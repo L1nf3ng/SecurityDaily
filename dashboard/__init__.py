@@ -12,7 +12,7 @@ def initLogger():
     LOGDIR='./logs/'
     logger = logging.getLogger()
     logger.setLevel(logging.INFO)
-    logFileName = LOGDIR + time.strftime('%Y%m%d%H%M', time.localtime(time.time()))+ '.log'
+    logFileName = LOGDIR + time.strftime('%Y%m%d')+ '.log'
     fileHandler = logging.FileHandler(filename=logFileName, encoding='utf8')
     fileHandler.setFormatter(logging.Formatter("%(asctime)s - %(filename)s[line:%(lineno)d] - %(levelname)s: %(message)s"))
     logger.addHandler(fileHandler)

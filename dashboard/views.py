@@ -40,7 +40,7 @@ def config():
 def show():
     # 默认第一页并只显示10条数据
     page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 10, type=int)
+    per_page = request.args.get('per_page', 20, type=int)
     # 查询爬取数据
     pagination = db.session.query(Post).order_by(Post.datetime.desc()).paginate(page, per_page)
     # 注意返回响应时的字符编码问题
