@@ -21,6 +21,7 @@
 * 以xpath表达式作为爬虫的规则库
 * 以web形式向用户提供服务、结果展示
 * 采用协程机制，加快爬取效率
+* 支持MySQL、SQLite两种数据库
 
 ## 安装
 
@@ -34,7 +35,11 @@
 
 ### 3.配置数据库
 
-本项目使用的是MySQL数据库，将项目根目录下的`mysql.sql`文件拷入某个系统目录（例如:`/home/`），然后进入MySQL执行脚本：
+本项目支持两种数据库：
+
+***
+
+如果使用的是MySQL数据库，将项目根目录下的`mysql.sql`文件拷入某个系统目录（例如:`/home/`），然后进入MySQL执行脚本：
 
 `> source /home/mysql.sql`
 
@@ -43,6 +48,16 @@
 `> grant all on SecurityDaily.* to 'your_mysql_account'@'%'; flush privileges;`
 
 切换到项目`dashboard`目录下的`config.py`文件，配置对应的MySQL连接参数。
+
+***
+
+如果使用的是SQLite数据库（本地数据库），则在项目根目录下创建名为`SecurityDaily.db`的数据库，进入该数据库后，执行：
+
+`>.read sqlite3.sql`
+
+***
+
+数据库通过`config.py`文件`DATABASE_TYPE`参数切换。
 
 ### 4.运行项目
 

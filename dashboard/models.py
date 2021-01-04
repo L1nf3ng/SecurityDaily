@@ -14,8 +14,8 @@ class Author(db.Model):
     __tablename__ = "authors"
     name = db.Column(db.String(255))
     link = db.Column(db.String(255))
-    create_time = db.Column(db.Date)
-    id = db.Column(db.Integer, primary_key=True)
+    create_time = db.Column(db.String(60))
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # 创建一个属性记录属于他的文章
     posts = db.relationship("Post", back_populates="author")
 
@@ -40,9 +40,9 @@ class Post(db.Model):
     title = db.Column(db.String(255))
     link = db.Column(db.String(255))
     tag = db.Column(db.String(60))
-    datetime = db.Column(db.Date)
+    datetime = db.Column(db.String(60))
     origin = db.Column(db.String(60))
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # 外键名为 '表名.字段名'
     author_id = db.Column(db.Integer, db.ForeignKey("authors.id"))
     # 创建一个属性代表它的作者对象

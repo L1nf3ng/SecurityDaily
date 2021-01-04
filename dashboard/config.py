@@ -6,7 +6,7 @@ Create Time: 2020/12/23 10:29
 Author: L1nf3ng
 """
 
-DATABASE_TYPE = "sqlite"    # or "mysql"
+DATABASE_TYPE = "mysql"    # or "sqlite"
 
 ########################################################
 #
@@ -15,7 +15,6 @@ DATABASE_TYPE = "sqlite"    # or "mysql"
 ########################################################
 
 SQLALCHEMY_DATABASE_URI_SQLITE = "sqlite:///../SecurityDaily.db"
-
 
 
 ########################################################
@@ -35,5 +34,6 @@ PASSWORD = '112233'
 # 不建议修改，如修改请和sql脚本一同修改
 DATABASE = 'SecurityDaily'
 
-SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_DATABASE_URI_MYSQL = "mysql+pymysql://{}:{}@{}:{}/{}?charset=utf8".format(USERNAME, PASSWORD, HOST, PORT, DATABASE)
+
+SQLALCHEMY_TRACK_MODIFICATIONS = False

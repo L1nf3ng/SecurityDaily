@@ -8,7 +8,7 @@ CREATE TABLE "authors" (
   "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
   "name" TEXT(255) NOT NULL,
   "link" TEXT(255) NOT NULL,
-  "create_time" NUMERIC NOT NULL,
+  "create_time" TEXT(60) NOT NULL,
   "extra" blob(255)
 );
 
@@ -27,7 +27,7 @@ CREATE TABLE "posts" (
   "title" TEXT(255) NOT NULL,
   "link" TEXT(255) NOT NULL,
   "tag" TEXT(60),
-  "datetime" NUMERIC NOT NULL,
+  "datetime" TEXT(60) NOT NULL,
   "origin" TEXT(60) NOT NULL,
   "author_id" INTEGER(11) NOT NULL,
   "extra" blob(255),
