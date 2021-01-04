@@ -3,11 +3,11 @@
 
 任务配置页面：
 
-![image-20210104142345535](https://llf-oss.oss-cn-beijing.aliyuncs.com/bucket/pictures/20210104142353.png)
+![](https://i.loli.net/2021/01/04/fAnUC4OYGqz35tI.png)
 
 结果展示页面:
 
-![image-20201231175303382](https://llf-oss.oss-cn-beijing.aliyuncs.com/bucket/pictures/20201231175303.png)
+![](https://i.loli.net/2021/01/04/mOuhBFxRvHy4czX.png)
 
 ## 知识早餐计划
 
