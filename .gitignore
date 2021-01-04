@@ -61,6 +61,9 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 
+# local database
+*.db
+
 # Flask stuff:
 instance/
 .webassets-cache
@@ -133,6 +136,3 @@ dmypy.json
 
 # logs deirectory
 logs/
-
-# log files
-*.log

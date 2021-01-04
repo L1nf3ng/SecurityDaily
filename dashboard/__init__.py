@@ -27,6 +27,10 @@ app = Flask(__name__)
 
 # 开发环境下，使用config.py文件配置（存在的情况下）
 app.config.from_pyfile("config.py", silent=True)
+if app.config["DATABASE_TYPE"] == "sqlite":
+    app.config["SQLALCHEMY_DATABASE_URI"] = app.config["SQLALCHEMY_DATABASE_URI_SQLITE"]
+elif app.config["DATABASE_TYPE"] == "mysql":
+    app.config["SQLALCHEMY_DATABASE_URI"] = app.config["SQLALCHEMY_DATABASE_URI_MYSQL"]
 
 # 在运行时创建日志文件存放日志
 try:

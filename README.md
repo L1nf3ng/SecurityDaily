@@ -30,13 +30,13 @@
 
 ### 2.安装依赖
 
-`cd SecurityDaily && python -m pip install requirements.txt`
+`cd SecurityDaily && python -m pip install -r requirements.txt`
 
 ### 3.配置数据库
 
-本项目使用的是MySQL数据库，将项目根目录下的`schema.sql`文件拷入某个系统目录（例如:`/home/`），然后进入MySQL执行脚本：
+本项目使用的是MySQL数据库，将项目根目录下的`mysql.sql`文件拷入某个系统目录（例如:`/home/`），然后进入MySQL执行脚本：
 
-`> source /home/schema.sql`
+`> source /home/mysql.sql`
 
 执行完会新建一个名为`SecurityDaily`的数据库，对某个mysql用户授予该数据库的全部权力：
 
