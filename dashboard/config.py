@@ -6,7 +6,7 @@ Create Time: 2020/12/23 10:29
 Author: L1nf3ng
 """
 
-DATABASE_TYPE = "mysql"    # or "sqlite"
+DATABASE_TYPE = "sqlite"    # or "mysql"
 
 ########################################################
 #

@@ -3,7 +3,7 @@
 
 任务配置页面：
 
-![image-20201231175229642](https://llf-oss.oss-cn-beijing.aliyuncs.com/bucket/pictures/20201231175237.png)
+![image-20210104142345535](https://llf-oss.oss-cn-beijing.aliyuncs.com/bucket/pictures/20210104142353.png)
 
 结果展示页面:
 
