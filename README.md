@@ -63,7 +63,16 @@
 
 回到项目根目录，运行：
 
-`python -m flask run`
+```bash
+# 如果是linux
+export FLASK_APP=dashboard
+# 如果是CMD
+set FLASK_APP=dashboard
+# 如果是PowerShell
+$env:FLASK_APP=dashboard
+
+python -m flask run
+```
 
 ## Q&A
 
