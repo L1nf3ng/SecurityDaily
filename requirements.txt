@@ -1,4 +1,4 @@
-Flask==1.1.2
+Flask==2.0.2
 Flask-SQLAlchemy==2.4.4
 Jinja2==2.11.2
 MarkupSafe==1.1.1
@@ -11,11 +11,12 @@ async-timeout==3.0.1
 attrs==20.3.0
 chardet==3.0.4
 click==7.1.2
+cryptography==41.0.7
 idna==2.10
 itsdangerous==1.1.0
 lxml==4.6.2
 multidict==5.1.0
 pip==20.3.3
 setuptools==51.1.0.post20201221
-typing-extensions==3.7.4.3
+typing-extensions==4.7.1
 yarl==1.6.3

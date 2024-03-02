@@ -42,11 +42,14 @@ class Post(db.Model):
     tag = db.Column(db.String(60))
     datetime = db.Column(db.String(60))
     origin = db.Column(db.String(60))
+    summary = db.Column(db.Text)
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     # 外键名为 '表名.字段名'
     author_id = db.Column(db.Integer, db.ForeignKey("authors.id"))
     # 创建一个属性代表它的作者对象
     author = db.relationship("Author", back_populates = "posts")
+
+
 
     def __init__(self, title, link, tag, origin, author):
         self.title = title

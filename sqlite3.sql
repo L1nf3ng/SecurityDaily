@@ -30,6 +30,7 @@ CREATE TABLE "posts" (
   "datetime" TEXT(60) NOT NULL,
   "origin" TEXT(60) NOT NULL,
   "author_id" INTEGER(11) NOT NULL,
+  "summary" text COMMENT '文章摘要，由ai帮忙总结，字数在200~300左右'
   "extra" blob(255),
   FOREIGN KEY ("author_id") REFERENCES "authors" ("id") ON DELETE CASCADE ON UPDATE CASCADE
 );

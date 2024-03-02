@@ -44,3 +44,7 @@ db = SQLAlchemy(app)
 logger = initLogger()
 
 from dashboard import views,config,models
+
+
+if __name__ == "__main__":
+    app.run()

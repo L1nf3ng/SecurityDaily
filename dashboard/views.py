@@ -61,3 +61,8 @@ def internal_error(error):
 
 app.add_url_rule('/', view_func=config)
 
+# @app.route("/")
+# def index():
+#     return redirect(url_for("config"))
+
+

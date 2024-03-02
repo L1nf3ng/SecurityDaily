@@ -35,7 +35,8 @@ CREATE TABLE `posts`  (
   `datetime` varchar(60)  NOT NULL COMMENT '爬取日期',
   `origin` varchar(60)NOT NULL COMMENT '来源平台',
   `author_id` int(11) NOT NULL COMMENT '外键，作者id号',
-  `extra` tinyblob NULL COMMENT '扩展字段，例如：可能用作缩略图',
+  `summary` text COMMENT '文章摘要，由ai帮忙总结，字数在200~300左右'
+  `extra`  NULL COMMENT '扩展字段，例如：可能用作缩略图',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `u_post`(`link`, `datetime`) USING BTREE COMMENT '依靠文章链接、发表日期做唯一性约束',
   INDEX `author_id`(`author_id`) USING BTREE,
