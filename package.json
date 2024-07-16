@@ -1,0 +1,24 @@
+{
+  "private": true,
+  "author": "L1nf3ng <nuaa_llf@126.com>",
+  "scripts": {
+    "dev": "umi dev",
+    "build": "umi build",
+    "postinstall": "umi setup",
+    "setup": "umi setup",
+    "start": "npm run dev",
+    "mock": "umi dev mock=true"
+  },
+  "dependencies": {
+    "@ant-design/pro-components": "^2.7.10",
+    "antd": "^5.18.3",
+    "echarts": "^5.5.1",
+    "umi": "^4.2.11",
+    "umi-request": "^1.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.33",
+    "@types/react-dom": "^18.0.11",
+    "typescript": "^5.0.3"
+  }
+}
