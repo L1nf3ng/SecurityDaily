@@ -12,7 +12,7 @@ from crawler import today
 # 引入Model类
 from dashboard.models import Post
 from crawler.utils import unit_task
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, jsonify
 
 
 # 配置视图函数
@@ -36,7 +36,7 @@ def config():
 
 
 # 分页展示结果
-@app.route('/show', methods = ['GET'])
+@app.route('/show', methods=['GET'])
 def show():
     # 默认第一页并只显示10条数据
     page = request.args.get('page', 1, type=int)
@@ -45,6 +45,21 @@ def show():
     pagination = db.session.query(Post).order_by(Post.datetime.desc()).paginate(page, per_page)
     # 注意返回响应时的字符编码问题
     return render_template("report.html", date=today(), pagination= pagination)
+
+
+@app.route("/articles/list", methods=["GET"])
+def getAllPosts():
+    posts = db.session.query(Post).order_by(Post.datetime.desc()).all()
+    ret = []
+    for post in posts:
+        ret.append({
+            "id": post.id,
+            "title": post.title,
+            "description": post.author.name,
+            "content": post.summary
+        })
+    s= 9
+    return jsonify(ret)
 
 
 # 错误处理之404
@@ -59,10 +74,24 @@ def internal_error(error):
     return render_template("500.html"), 500
 
 
-app.add_url_rule('/', view_func=config)
+# app.add_url_rule('/', view_func=config)
+@app.route("/", methods=["GET"])
+def index():
+    return render_template("index.html")
+
 
 # @app.route("/")
 # def index():
 #     return redirect(url_for("config"))
 
 
+@app.route("/start-htr-hunter", methods=['GET'])
+def start_htr_hunter():
+    #TODO: 1.调用huntr接口获取文档内容。
+    #
+    # TODO：2.调用千文turbo模型进行内容总结
+
+    # TODO：3.结果存储mongo并返回展示。
+
+    # TODO：4.做频次限制，一天一次。
+    pass
