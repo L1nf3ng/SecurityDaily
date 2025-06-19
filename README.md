@@ -1,9 +1,7 @@
 # SecurityDaily
-一款用于搜集安全社区各种资讯（博客、公告、情报）的工具，由原BlogSpider项目迁移而来，将更加关注信息搜集的功能。
+一款用于搜集安全社区各种资讯（博客、公告、情报）的工具，由原BlogSpider项目迁移而来，新版本将按主题搜罗信息，将结果限定在固定的几个技术领域内。
 
-## 重要更新
-
-将开发新的AI总结功能，将获取到的网页文本类容做简要概括并展示，提高阅读效率。
+## 功能介绍
 
 任务配置页面：
 
@@ -32,15 +30,15 @@
 
 ## 安装
 
-### 1.下载源码
+1.下载源码
 
 `git clone https://github.com/L1nf3ng/SecurityDaily.git -b main`
 
-### 2.安装依赖
+2.安装依赖
 
 `cd SecurityDaily && python -m pip install -r requirements.txt`
 
-### 3.配置数据库
+3.配置数据库
 
 本项目支持两种数据库：
 
@@ -66,7 +64,7 @@
 
 数据库通过`config.py`文件`DATABASE_TYPE`参数切换。
 
-### 4.运行项目
+4.运行项目
 
 回到项目根目录，运行：
 
@@ -80,7 +78,12 @@ $env:FLASK_APP=dashboard
 
 python -m flask run
 ```
-或者进入dashboard文件夹：
-```bash
-python __init__.py
-```
+
+## MileStones
+**V2.0**
+
+将开发新的AI总结功能，将获取到的网页文本类容做简要概括并展示，提高阅读效率。本功能将率先运用在htrHunter模块内。
+
+**V2.1**
+
+前端页面全面升级，更加美观大气。
