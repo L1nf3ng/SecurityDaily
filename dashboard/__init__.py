@@ -23,7 +23,7 @@ def initLogger():
 LOGS_FOLDER = "logs"
 
 # app = Flask(__name__, instance_relative_config=True)
-app = Flask(__name__)
+app = Flask(__name__, static_folder='./static')
 
 # 开发环境下，使用config.py文件配置（存在的情况下）
 app.config.from_pyfile("config.py", silent=True)
@@ -43,8 +43,7 @@ db = SQLAlchemy(app)
 # 因为web端先启动，所以由它完成logger初始化
 logger = initLogger()
 
-from dashboard import views,config,models
+
+# from dashboard import views,config,models
 
 
-if __name__ == "__main__":
-    app.run(debug=True)
