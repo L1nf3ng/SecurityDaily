@@ -10,6 +10,7 @@ import re
 import datetime
 from functools import wraps
 
+HUNTR_URL = "https://huntr.com/bounties/{}"
 
 # 日期格式的转换的装饰器
 def dateTimeFormatter(func):
@@ -49,5 +50,3 @@ def define_scope():
         last = now - datetime.timedelta(days=2)
         scope.append(last.strftime("%Y-%m-%d"))
     return scope
-
-from crawler import utils

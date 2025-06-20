@@ -11,7 +11,7 @@ from dashboard import app, db
 from crawler import today
 # 引入Model类
 from dashboard.models import Post
-from crawler.utils import unit_task
+from utils import unit_task
 from flask import request, render_template, redirect, url_for, jsonify
 
 
