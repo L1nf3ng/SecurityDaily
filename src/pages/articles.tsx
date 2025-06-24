@@ -42,7 +42,7 @@ export default ()=>{
   return (
     <ProList<Article>
       itemLayout="vertical"
-      headerTitle="文章列表"
+      headerTitle="安全知识早餐"
       dataSource={articles}
       metas={{
         title: {
