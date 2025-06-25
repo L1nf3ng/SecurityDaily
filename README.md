@@ -46,11 +46,17 @@
 
 如果使用的是MySQL数据库，将项目根目录下的`mysql.sql`文件拷入某个系统目录（例如:`/home/`），然后进入MySQL执行脚本：
 
-`> source /home/mysql.sql`
+```sql
+source /home/mysql.sql
+```
 
 执行完会新建一个名为`SecurityDaily`的数据库，对某个mysql用户授予该数据库的全部权力：
 
-`> grant all on SecurityDaily.* to 'your_mysql_account'@'%'; flush privileges;`
+```sql
+create user 'your_account'@'host' identified by 'your_password';
+grant all privileges on SecurityDaily.* to 'your_account'@'host';
+flush privileges;
+```
 
 切换到项目`dashboard`目录下的`config.py`文件，配置对应的MySQL连接参数。
 
@@ -66,7 +72,7 @@
 
 4.运行项目
 
-回到项目根目录，运行：
+启动方式一：python模块启动。回到项目根目录，运行：
 
 ```bash
 # 如果是linux
@@ -77,6 +83,12 @@ set FLASK_APP=dashboard
 $env:FLASK_APP=dashboard
 
 python -m flask run
+```
+
+启动方式二：main文件启动。
+
+```bash
+python dashboard/views.py
 ```
 
 ## MileStones

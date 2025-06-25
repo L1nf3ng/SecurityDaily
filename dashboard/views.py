@@ -12,7 +12,7 @@ from crawler import today
 # 引入Model类
 from dashboard.models import Post
 from utils import unit_task
-from flask import request, render_template, redirect, url_for, jsonify
+from flask import request, render_template, redirect, url_for, jsonify, send_from_directory
 
 
 # 配置视图函数
@@ -62,6 +62,20 @@ def getAllPosts():
     return jsonify(ret)
 
 
+@app.route('/')
+def index():
+    return send_from_directory('./static', 'index.html')
+
+
+@app.route('/<path:path>')
+def catch_all(path):
+    # 如果文件存在，返回静态文件
+    if path and '.' in path:
+        return send_from_directory('./static', path)
+    # 否则返回 index.html（处理前端路由）
+    return send_from_directory('./static', 'index.html')
+
+
 # 错误处理之404
 @app.errorhandler(404)
 def page_not_found(error):
@@ -75,9 +89,6 @@ def internal_error(error):
 
 
 # app.add_url_rule('/', view_func=config)
-@app.route("/", methods=["GET"])
-def index():
-    return render_template("index.html")
 
 
 # @app.route("/")
@@ -95,3 +106,7 @@ def start_htr_hunter():
 
     # TODO：4.做频次限制，一天一次。
     pass
+
+
+if __name__ == "__main__":
+    app.run(debug=True)
